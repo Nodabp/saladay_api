@@ -1,4 +1,4 @@
-package com.saladay.saladay_api.domain.entitiy;
+package com.saladay.saladay_api.domain.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

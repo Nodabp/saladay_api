@@ -1,6 +1,9 @@
-package com.saladay.saladay_api.domain.entitiy;
+package com.saladay.saladay_api.domain.users;
 
+import com.saladay.saladay_api.domain.common.BaseTimeEntity;
+import com.saladay.saladay_api.domain.point.Point;
 import com.saladay.saladay_api.domain.enums.Gender;
+import com.saladay.saladay_api.domain.orders.Orders;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,4 +44,7 @@ public class Users extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
+
+
+
 }
