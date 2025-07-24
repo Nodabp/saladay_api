@@ -45,6 +45,4 @@ public class Users extends BaseTimeEntity {
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
 
-
-
 }
