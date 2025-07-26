@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -23,8 +24,8 @@ class UserRepositoryTest {
     @Test
     void save() {
 
-        List<Orders> orders = null;
-        List<Point> point = null;
+        List<Orders> orders = new ArrayList<>();
+        List<Point> point = new ArrayList<>();
 
         Users user = Users.builder()
                 .name("test_name1")
@@ -39,5 +40,13 @@ class UserRepositoryTest {
                 .build();
 
         userRepository.save(user);
+    }
+    @Test
+    void select() {
+        userRepository.findAll().forEach(log::info);
+    }
+    @Test
+    void findByPhoneNumber(){
+        log.info(userRepository.findByPhoneNumber("1234"));
     }
 }

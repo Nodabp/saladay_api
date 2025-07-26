@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"orders", "points"})
 public class Users extends BaseTimeEntity {
 
     @Id
@@ -44,5 +45,4 @@ public class Users extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
-
 }

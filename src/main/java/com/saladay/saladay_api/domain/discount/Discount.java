@@ -33,6 +33,5 @@ public class Discount {
 
     private boolean stackable; // 중복 적용 가능 여부
     private int priority; // 낮을수록 우선 적용
-
 }
 
