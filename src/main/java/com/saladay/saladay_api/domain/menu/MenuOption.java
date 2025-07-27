@@ -31,4 +31,7 @@ public class MenuOption {
     private boolean isRequired; // 필수 선택 여부
 
     private int displayOrder; // UI 노출 순서
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

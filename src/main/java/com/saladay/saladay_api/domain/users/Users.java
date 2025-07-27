@@ -7,7 +7,7 @@ import com.saladay.saladay_api.domain.orders.Orders;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class Users extends BaseTimeEntity {
     private Gender gender;  // M, F, X
 
     @Column(nullable = false)
-    private LocalDate birth;
+    private LocalDateTime birth;
 
     private String address1;
     private String address2;

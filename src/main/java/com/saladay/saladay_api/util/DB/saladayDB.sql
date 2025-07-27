@@ -20,3 +20,20 @@ INSERT INTO menu (name, description, price, is_active, category_id) VALUES
 
 INSERT INTO menu (name, description, price, is_active, category_id) VALUES
     ('병맥주 (330ml)', '성인 인증 필요', 3800, 1, 4);
+
+INSERT INTO menu_option (menu_id, name, extra_price, type, is_default, is_required, display_order)
+VALUES
+    (2, '치즈 추가', 500, 'TOPPING', false, false, 1),
+    (2, '아보카도 추가', 1000, 'TOPPING', false, false, 2),
+    (3, '밥 추가', 1000, 'EXTRA', false, true, 1);
+
+INSERT INTO discount (type, value, start_time, end_time, is_active, target_type, target_category_id, description, stackable, priority)
+VALUES
+    ('PERCENT', 10, '2025-07-01 00:00:00', '2025-07-31 23:59:59', true, 'CATEGORY', 1, '여름 샐러드 할인', false, 1);
+
+INSERT INTO users (phone_number, name, gender, birth, create_at, updated_at)
+VALUES
+    ('01012345678', '김샐러', 'F', '1993-06-15', NOW(), NOW());
+
+ALTER TABLE menu ADD COLUMN image_url VARCHAR(255);
+ALTER TABLE menu_option ADD COLUMN image_url VARCHAR(255);

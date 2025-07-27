@@ -2,8 +2,13 @@ package com.saladay.saladay_api.domain.orders;
 
 import com.saladay.saladay_api.domain.menu.MenuOption;
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrdersItemOption {
 
     @Id

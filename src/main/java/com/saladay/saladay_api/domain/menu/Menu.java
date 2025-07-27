@@ -40,4 +40,7 @@ public class Menu extends BaseTimeEntity {
     private LocalDateTime visibleFrom;
     private LocalDateTime visibleUntil;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
 }

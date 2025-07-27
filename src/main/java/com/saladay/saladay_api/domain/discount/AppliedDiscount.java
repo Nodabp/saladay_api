@@ -2,9 +2,16 @@ package com.saladay.saladay_api.domain.discount;
 
 import com.saladay.saladay_api.domain.orders.OrdersItem;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AppliedDiscount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

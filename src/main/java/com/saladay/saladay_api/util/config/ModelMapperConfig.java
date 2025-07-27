@@ -1,4 +1,4 @@
-package com.saladay.saladay_api.config;
+package com.saladay.saladay_api.util.config;
 
 
 import org.modelmapper.ModelMapper;

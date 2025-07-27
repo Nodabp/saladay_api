@@ -3,10 +3,18 @@ package com.saladay.saladay_api.domain.discount;
 import com.saladay.saladay_api.domain.enums.DiscountTargetType;
 import com.saladay.saladay_api.domain.enums.DiscountType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Discount {
 
     @Id
