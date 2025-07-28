@@ -25,6 +25,9 @@ public class MenuOptionDTO {
     @Schema(description = "옵션 타입", example = "TOPPING")
     private OptionType type;
 
+    @Schema(description = "옵션 수량", example = "2")
+    private int quantity;
+
     @Schema(description = "기본 옵션 여부", example = "true")
     private boolean isDefault;
 

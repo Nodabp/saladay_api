@@ -24,7 +24,4 @@ public class CustomMapper {
     public boolean isAdult(LocalDateTime birth) {
         return Duration.between(birth, LocalDateTime.now()).toDays() >= (365 * 19);
     }
-
-    // 확장 예시
-    // public boolean isEligibleForCoupon(LocalDateTime birth, LocalDateTime createdAt)
 }

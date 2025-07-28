@@ -3,6 +3,7 @@ package com.saladay.saladay_api.service;
 import com.saladay.saladay_api.domain.menu.Menu;
 import com.saladay.saladay_api.domain.menu.MenuOption;
 import com.saladay.saladay_api.dto.discountDTO.DiscountDTO;
+import com.saladay.saladay_api.dto.menuDTO.OptionQuantityRequestDTO;
 import com.saladay.saladay_api.dto.menuDTO.PriceMenuDetailDTO;
 import com.saladay.saladay_api.dto.menuDTO.MenuOptionDTO;
 import com.saladay.saladay_api.repository.MenuInventoryRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,12 +26,26 @@ public class PriceService {
     private final MenuOptionRepository menuOptionRepository;
     private final MenuRepository menuRepository;
 
-    public PriceMenuDetailDTO generateMenuDetail(Long menuId, Long userId, List<Long> selectedOptionIds, int reqPointAmount
+    public PriceMenuDetailDTO generateMenuDetail(Long menuId, Long userId, List<OptionQuantityRequestDTO> selectedOptionRequests
+            , int reqPointAmount
     ) {
-        Menu menu = menuRepository.findById(menuId).orElseThrow();
-        DiscountDTO discount = discountService.calculateApplicableDiscount(menu, LocalDateTime.now());
-        int discountedPrice = menu.getPrice() - discount.getDiscountAmount();
+        Menu menu = menuRepository.findById(menuId).orElseThrow(); // 메뉴 소환
+        // 할인 후 금액 정책관련
+        List<DiscountDTO> discounts = discountService.calculateApplicableDiscounts(menu, LocalDateTime.now()); // 할인정책 리스트 가져오기
 
+        int totalDiscountAmount = discounts.stream()
+                .mapToInt(DiscountDTO::getDiscountAmount) // 최신 기술 int Stream
+                .sum();
+
+        int discountedPrice = menu.getPrice() - totalDiscountAmount;
+
+        // 할인 설명 리스트 배열
+        List<String> descriptions = new ArrayList<>();
+        discounts.forEach(discount -> {
+            descriptions.add(discount.getDescription());
+        });
+
+        // 포인트 관련
 
         int pointAvailable = pointService.getAvailablePointByUser(userId);
         int pointAmount = Math.min(reqPointAmount, pointAvailable);
@@ -52,36 +68,52 @@ public class PriceService {
         List<MenuOption> allOptions = menuOptionRepository.findAllByMenuId(menu.getId());
 
         // 선택 옵션만 추려내기
-        List<MenuOption> selectedOptions = selectedOptionIds == null ? List.of()  : allOptions.stream()
-                .filter(opt -> selectedOptionIds.contains(opt.getId()))
+
+        List<MenuOptionDTO> selectedOptionDTOs = allOptions.stream()
+                .filter(opt -> selectedOptionRequests.stream()
+                        .anyMatch(req -> req.getOptionId().equals(opt.getId())))
+                .map(opt -> {
+                    int qty = selectedOptionRequests.stream()
+                            .filter(req -> req.getOptionId().equals(opt.getId()))
+                            .findFirst()
+                            .map(OptionQuantityRequestDTO::getQuantity)
+                            .orElse(1);
+
+                    return MenuOptionDTO.builder()
+                            .id(opt.getId())
+                            .name(opt.getName())
+                            .extraPrice(opt.getExtraPrice())
+                            .quantity(qty)
+                            .isRequired(opt.isRequired())
+                            .type(opt.getType())
+                            .displayOrder(opt.getDisplayOrder())
+                            .isDefault(opt.isDefault())
+                            .imageUrl(opt.getImageUrl())
+                            .build();
+                })
                 .toList();
 
-        List<MenuOptionDTO> selectedOptionDTOs = selectedOptions.stream()
-                .map(opt -> MenuOptionDTO.builder()
-                        .id(opt.getId())
-                        .name(opt.getName())
-                        .extraPrice(opt.getExtraPrice())
-                        .isRequired(opt.isRequired())
-                        .type(opt.getType())
-                        .displayOrder(opt.getDisplayOrder())
-                        .isDefault(opt.isDefault())
-                        .imageUrl(opt.getImageUrl())
-                        .build())
-                .toList();
-
-        int totalOptionPrice = selectedOptions.stream()
-                .mapToInt(MenuOption::getExtraPrice)
+        int totalOptionPrice = selectedOptionRequests.stream()
+                .mapToInt(req -> {
+                    MenuOption opt = allOptions.stream()
+                            .filter(o -> o.getId().equals(req.getOptionId()))
+                            .findFirst()
+                            .orElseThrow();
+                    return opt.getExtraPrice() * req.getQuantity();
+                })
                 .sum();
 
+        // 최종 금액 계산
         int finalOptionPrice = discountedPrice - pointAmount + totalOptionPrice;
 
+        // dto로 매핑후 리턴.
         return PriceMenuDetailDTO.builder()
                 .id(menu.getId())
                 .name(menu.getName())
                 .description(menu.getDescription())
                 .price(menu.getPrice())
                 .discountedPrice(discountedPrice)
-                .discountDescription(discount.getDescription())
+                .discountDescription(descriptions)
                 .pointAmount(pointAmount)
                 .finalPrice(finalOptionPrice)
                 .options(selectedOptionDTOs)

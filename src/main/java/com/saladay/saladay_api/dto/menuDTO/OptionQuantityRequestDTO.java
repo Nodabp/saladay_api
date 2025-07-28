@@ -1,5 +1,4 @@
-package com.saladay.saladay_api.dto.discountDTO;
-
+package com.saladay.saladay_api.dto.menuDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppliedDiscountDTO {
-    private DiscountDTO discountDTO;
+public class OptionQuantityRequestDTO {
+    private Long optionId;
+    private int quantity;
 }

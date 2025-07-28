@@ -31,8 +31,8 @@ public class PriceMenuDetailDTO {
     @Schema(description = "할인 적용 후 가격", example = "8000")
     private int discountedPrice;
 
-    @Schema(description = "할인 설명", example = "여름 한정 이벤트 할인")
-    private String discountDescription;
+    @Schema(description = "할인 설명", example = "[ 이벤트 할인 , 특정 메뉴 할인 ]")
+    private List<String> discountDescription;
 
     @Schema(description = "카테고리 이름", example = "샐러드")
     private String categoryName;
@@ -49,7 +49,7 @@ public class PriceMenuDetailDTO {
     @Schema(description = "포인트 사용 금액(3000원 이상)" , example = "3000")
     private int pointAmount;
 
-    @Schema(description = "메뉴 옵션", example = "[\"TOPPING\",]")
+    @Schema(description = "메뉴 옵션", example = "options{ id , quantity }")
     private List<MenuOptionDTO> options;
 
     @Schema(description = "메뉴 옵션 포함 총 가격", example = "10000000")
