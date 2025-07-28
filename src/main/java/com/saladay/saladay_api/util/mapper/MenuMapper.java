@@ -4,7 +4,6 @@ import com.saladay.saladay_api.domain.menu.Category;
 import com.saladay.saladay_api.domain.menu.Menu;
 import com.saladay.saladay_api.dto.menuDTO.CategoryDTO;
 import com.saladay.saladay_api.dto.menuDTO.MenuDTO;
-import com.saladay.saladay_api.dto.menuDTO.MenuDetailDTO;
 import org.springframework.stereotype.Component;
 
 @Component

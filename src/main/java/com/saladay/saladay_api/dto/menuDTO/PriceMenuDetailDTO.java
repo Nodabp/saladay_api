@@ -8,13 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuDetailDTO {
+public class PriceMenuDetailDTO {
 
     @Schema(description = "메뉴 고유 ID", example = "101")
     private Long id;
@@ -37,17 +37,26 @@ public class MenuDetailDTO {
     @Schema(description = "카테고리 이름", example = "샐러드")
     private String categoryName;
 
-    @Schema(description = "메뉴 대표 이미지 URL", example = "https://cdn.saladay.com/images/grilled_chicken_salad.jpg")
+    @Schema(description = "메뉴 대표 이미지 URL", example = "/images/grilled_chicken_salad.jpg")
     private String imageUrl;
 
     @Schema(description = "메뉴 판매 가능 여부", example = "true")
     private boolean isAvailable;
 
-//    @Schema(description = "남은 재고 수량", example = "28")
-//    private int stockQuantity;
-//
-//    @Schema(description = "선택된 옵션 요약", example = "치즈 추가, 라지 사이즈")
-//    private String optionSummary;
+    @Schema(description = "남은 재고 수량", example = "28")
+    private int stockQuantity;
+
+    @Schema(description = "포인트 사용 금액(3000원 이상)" , example = "3000")
+    private int pointAmount;
+
+    @Schema(description = "메뉴 옵션", example = "[\"TOPPING\",]")
+    private List<MenuOptionDTO> options;
+
+    @Schema(description = "메뉴 옵션 포함 총 가격", example = "10000000")
+    private int totalOptionPrice;
+
+    @Schema(description = "최종 가격", example = "30000")
+    private int finalPrice;
 
     @Schema(description = "판매 시작 시간", example = "2025-07-01T00:00:00")
     private LocalDateTime visibleFrom;

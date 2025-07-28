@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ class UserRepositoryTest {
 
         Users user = Users.builder()
                 .name("test_name1")
-                .birth(LocalDate.now())
+                .birth(LocalDateTime.now())
                 .phoneNumber("1234")
                 .gender(Gender.M)
                 .address1("ad1")

@@ -31,14 +31,14 @@ public class PointService {
                 : userService.findByPhoneNumber(request.getPhoneNumber()).getId();
 
         // 2. 금액 부호 처리
-        int signedAmount = (request.getType() == PointType.USING)
+        int convertedAmount = (request.getType() == PointType.USING)
                 ? -Math.abs(request.getPointAmount())
                 : Math.abs(request.getPointAmount());
 
         // 3. Point 생성
         Point point = Point.builder()
                 .users(Users.builder().id(userId).build())
-                .pointAmount(signedAmount)
+                .pointAmount(convertedAmount)
                 .type(request.getType())
                 .source(request.getSource())
                 .description(request.getDescription())
