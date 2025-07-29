@@ -2,7 +2,7 @@ package com.saladay.saladay_api.sms;
 
 import lombok.Data;
 
-@Data
+//@Data
 public class MessageDTO {
     private String from;
     private String to;

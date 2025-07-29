@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -64,5 +65,11 @@ public class PriceDetailDTO {
 
     @Schema(description = "재고 수량", example = "100")
     private int stockQuantity;
+
+    public List<Integer> getOptionPriceImpacts() {
+        return selectedOptions.stream()
+                .map(MenuOptionDTO::getPriceImpact)
+                .collect(Collectors.toList());
+    }
 
 }

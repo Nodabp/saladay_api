@@ -39,4 +39,6 @@ public class MenuOptionDTO {
 
     @Schema(description = "이미지 위치", example = "/images/option/topping_1.jpg")
     private String imageUrl;
+
+    private int priceImpact;
 }
