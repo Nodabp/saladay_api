@@ -51,8 +51,8 @@ dependencies {
     /* 캐싱 처리관련 추후 사용  */
     implementation 'org.springframework.boot:spring-boot-starter-cache'
 
-    /* 시큐리티 관련 _ 시간없으면 안쓸 것*/
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    /* 누리고 SDK */
+    implementation 'net.nurigo:sdk:4.3.2'
 
 }
 

@@ -19,7 +19,7 @@ public class MenuInventoryDTO {
     private Long menuId;
 
     @Schema(description = "수량", example = "100")
-    private int stockQuantity;
+    private Integer stockQuantity;
 
     @Schema(description = "관리자에 의해 수동 품절", example = "false")
     private boolean soldOutManually;

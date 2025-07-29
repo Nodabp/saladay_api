@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Component
 public class CustomMapper {
-
+    /* 유저를 받아 키오스크 dto로 전환 성인인지 판단 까지 한번에. */
     public UsersKioskDTO toKioskDto(Users user) {
         return UsersKioskDTO.builder()
                 .id(user.getId())
