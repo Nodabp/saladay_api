@@ -1,14 +1,17 @@
 package com.saladay.saladay_api.service;
 
 import com.saladay.saladay_api.domain.menu.Menu;
+import com.saladay.saladay_api.domain.menu.MenuInventory;
 import com.saladay.saladay_api.domain.menu.MenuOption;
 import com.saladay.saladay_api.dto.discountDTO.DiscountDTO;
 import com.saladay.saladay_api.dto.menuDTO.OptionQuantityRequestDTO;
-import com.saladay.saladay_api.dto.menuDTO.PriceMenuDetailDTO;
+import com.saladay.saladay_api.dto.priceDTO.PriceDetailDTO;
+import com.saladay.saladay_api.dto.priceDTO.PriceMenuDetailDTO;
 import com.saladay.saladay_api.dto.menuDTO.MenuOptionDTO;
 import com.saladay.saladay_api.repository.MenuInventoryRepository;
 import com.saladay.saladay_api.repository.MenuOptionRepository;
 import com.saladay.saladay_api.repository.MenuRepository;
+import com.saladay.saladay_api.util.mapper.AvailabilityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,7 @@ public class PriceService {
     private final MenuInventoryRepository inventoryRepository;
     private final MenuOptionRepository menuOptionRepository;
     private final MenuRepository menuRepository;
+    private final AvailabilityMapper availabilityMapper;
 
     public PriceMenuDetailDTO generateMenuDetail(Long menuId, Long userId, List<OptionQuantityRequestDTO> selectedOptionRequests
             , int reqPointAmount
@@ -48,7 +52,7 @@ public class PriceService {
         // 포인트 관련
 
         int pointAvailable = pointService.getAvailablePointByUser(userId);
-        int pointAmount = Math.min(reqPointAmount, pointAvailable);
+        int pointAmount = Math.min(reqPointAmount, pointAvailable) ;
         pointAmount = Math.min(pointAmount, discountedPrice); // 과잉 적용 방지
 
         int stock = inventoryRepository.findByMenuId(menu.getId()).getStockQuantity();
@@ -124,6 +128,70 @@ public class PriceService {
                 .visibleUntil(menu.getVisibleUntil())
                 .totalOptionPrice(totalOptionPrice)
                 .stockQuantity(stock)
+                .build();
+    }
+    // 새로작성됨.
+
+    public PriceDetailDTO generatePriceDetail(Long menuId, Long userId, List<OptionQuantityRequestDTO> selectedOptionRequests, int reqPointAmount) {
+        Menu menu = menuRepository.findById(menuId).orElseThrow();
+
+        // 할인 계산
+        List<DiscountDTO> discounts = discountService.calculateApplicableDiscounts(menu, LocalDateTime.now());
+        int totalDiscountAmount = discounts.stream().mapToInt(DiscountDTO::getDiscountAmount).sum();
+        List<String> descriptions = discounts.stream().map(DiscountDTO::getDescription).toList();
+
+        int discountedPrice = menu.getPrice() - totalDiscountAmount;
+
+        // 포인트 계산
+        int pointAvailable = pointService.getAvailablePointByUser(userId);
+        int pointAmount = Math.min(reqPointAmount, Math.min(pointAvailable, discountedPrice));
+
+        // 옵션 처리
+        List<MenuOption> allOptions = menuOptionRepository.findAllByMenuId(menuId);
+        List<MenuOptionDTO> selectedOptions = selectedOptionRequests.stream()
+                .map(req -> {
+                    MenuOption opt = allOptions.stream()
+                            .filter(o -> o.getId().equals(req.getOptionId()))
+                            .findFirst()
+                            .orElseThrow();
+                    return MenuOptionDTO.builder()
+                            .id(opt.getId())
+                            .name(opt.getName())
+                            .extraPrice(opt.getExtraPrice())
+                            .quantity(req.getQuantity())
+                            .isRequired(opt.isRequired())
+                            .type(opt.getType())
+                            .displayOrder(opt.getDisplayOrder())
+                            .isDefault(opt.isDefault())
+                            .imageUrl(opt.getImageUrl())
+                            .build();
+                }).toList();
+
+        int totalOptionPrice = selectedOptions.stream()
+                .mapToInt(opt -> opt.getExtraPrice() * opt.getQuantity())
+                .sum();
+
+        // 가용성 판단 (맵퍼로 분리 가능)
+        MenuInventory inventory = inventoryRepository.findByMenuId(menuId);
+        boolean isAvailable = availabilityMapper.isMenuAvailable(menu, inventory);
+
+        return PriceDetailDTO.builder()
+                .menuId(menu.getId())
+                .name(menu.getName())
+                .basePrice(menu.getPrice())
+                .discountAmount(totalDiscountAmount)
+                .discountedPrice(discountedPrice)
+                .discountDescriptions(descriptions)
+                .pointAmount(pointAmount)
+                .totalOptionPrice(totalOptionPrice)
+                .finalPrice(discountedPrice - pointAmount + totalOptionPrice)
+                .selectedOptions(selectedOptions)
+                .categoryName(menu.getCategory().getName())
+                .imageUrl(menu.getImageUrl())
+                .isAvailable(isAvailable)
+                .visibleFrom(menu.getVisibleFrom())
+                .visibleUntil(menu.getVisibleUntil())
+                .stockQuantity(inventory.getStockQuantity())
                 .build();
     }
 }

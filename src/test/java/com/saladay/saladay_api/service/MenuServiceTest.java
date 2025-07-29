@@ -23,4 +23,9 @@ class MenuServiceTest {
     void findMenuById() {
        log.info(menuService.findMenuById(2L)) ;
     }
+
+    @Test
+    void findCategoryById(){
+        log.info(menuService.findCategoryById(1L));
+    }
 }

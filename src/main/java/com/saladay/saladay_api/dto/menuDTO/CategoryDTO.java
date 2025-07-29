@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,6 +23,12 @@ public class CategoryDTO {
     @Schema(description = "카테고리 설명", example = "다양한 채소와 토핑으로 구성된 건강식")
     private String description;
 
+    @Schema(description = "아이콘 url", example = "/icon/category/salad.jpg")
+    private String iconUrl;
+
     @Schema(description = "카테고리 순서", example = "1")
     private int sortOrder;
+
+    @Schema(description = "메뉴 목록")
+    private List<MenuDTO> menus;
 }

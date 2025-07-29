@@ -1,7 +1,8 @@
-package com.saladay.saladay_api.dto.menuDTO;
+package com.saladay.saladay_api.dto.priceDTO;
 
 import java.time.LocalDateTime;
 
+import com.saladay.saladay_api.dto.menuDTO.MenuOptionDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;

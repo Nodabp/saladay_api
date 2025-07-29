@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DiscountService {
-    //
+
     private final DiscountRepository discountRepository;
-//
+// 단건 조회용으로 변경시.
 //    public DiscountDTO calculateApplicableDiscount(Menu menu, LocalDateTime now) {
 //        List<Discount> candidates = discountRepository.findAllActiveBetween(now);
 //

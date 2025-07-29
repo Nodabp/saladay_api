@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,9 +30,17 @@ public class MenuDTO {
     @Schema(description = "카테고리명", example = "샐러드")
     private String categoryName;
 
+    @Schema(description = "옵션 목록")
+    private List<MenuOptionDTO> menuOptions;
+
+    // 메뉴자체의 총 수량 정보,
+    @Schema(description = "수량 정보")
+    private MenuInventoryDTO menuInventory;
+
     @Schema(description = "대표 이미지 URL", example = "/images/chicken_caesar.jpg")
     private String imageUrl;
 
+    // Menu 엔티티에 있는 visible_from 과 visible_until 및 is_active 를 참고 해서 최종 판매 여부를 사용할 컬럼.
     @Schema(description = "판매 가능 여부", example = "true")
     private boolean isAvailable;
 }

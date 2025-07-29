@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MenuOptionDTO {
 
-    @Schema(description = "메뉴 옵션 아이디", example = "1")
+    @Schema(description = "옵션 아이디", example = "1")
     private Long id;
 
     @Schema(description = "옵션 메뉴명", example = "치즈 추가")
@@ -25,13 +25,13 @@ public class MenuOptionDTO {
     @Schema(description = "옵션 타입", example = "TOPPING")
     private OptionType type;
 
-    @Schema(description = "옵션 수량", example = "2")
+    @Schema(description = "옵션 수량", example = "2") // 엔티티에 없는 컬럼.
     private int quantity;
 
     @Schema(description = "기본 옵션 여부", example = "true")
     private boolean isDefault;
 
-    @Schema(description = "요구", example = "true")
+    @Schema(description = "필수 요구 여부", example = "true")
     private boolean isRequired;
 
     @Schema(description = "옵션 메뉴명", example = "10")
