@@ -29,7 +29,7 @@ public class OrderItemConverter {
                                         .menuOptionId(opt.getId())
                                         .name(opt.getName())
                                         .extraPrice(opt.getExtraPrice())
-                                        .priceImpact()
+                                        .priceImpact(opt.getExtraPrice()) // 추후 옵션 할인 대응용 현제 적용없음
                                         .type(opt.getType())
                                         .build()
                                 ).collect(Collectors.toList())

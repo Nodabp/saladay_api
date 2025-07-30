@@ -28,6 +28,7 @@ public class TreeMapper {
     public CategoryDTO toDto(Category category) {
         List<MenuDTO> menuDTOs = category.getMenu().stream()
                 .map(this::convertMenu)
+                .filter(MenuDTO::isAvailable) // isAvailable이 true 일때만 반환
                 .collect(Collectors.toList());
 
         return CategoryDTO.builder()

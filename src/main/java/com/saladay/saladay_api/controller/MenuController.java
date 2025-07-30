@@ -2,7 +2,6 @@ package com.saladay.saladay_api.controller;
 
 
 import com.saladay.saladay_api.dto.menuDTO.CategoryDTO;
-import com.saladay.saladay_api.dto.menuDTO.MenuDTO;
 import com.saladay.saladay_api.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

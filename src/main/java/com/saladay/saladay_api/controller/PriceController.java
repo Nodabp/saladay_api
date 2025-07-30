@@ -22,7 +22,7 @@ public class PriceController {
     @PostMapping("/detail")
     public ResponseEntity<PriceDetailDTO> getPriceDetail(
             @RequestParam Long menuId,
-            @RequestParam Long userId, // 사용자 포인트 기준 적용
+            @RequestParam(required = false) Long userId, // 사용자 포인트 기준 적용
             @RequestParam(required = false) int reqPointAmount,
             @RequestBody(required = false)
             List<OptionQuantityRequestDTO> options

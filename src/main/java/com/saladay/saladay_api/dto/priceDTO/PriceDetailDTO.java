@@ -66,7 +66,7 @@ public class PriceDetailDTO {
     @Schema(description = "재고 수량", example = "100")
     private int stockQuantity;
 
-    public List<Integer> getOptionPriceImpacts() {
+    public List<Integer> getOptionPriceImpacts() { // 지금은 사용안함.
         return selectedOptions.stream()
                 .map(MenuOptionDTO::getPriceImpact)
                 .collect(Collectors.toList());

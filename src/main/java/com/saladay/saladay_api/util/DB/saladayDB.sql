@@ -37,3 +37,12 @@ VALUES
 
 ALTER TABLE menu ADD COLUMN image_url VARCHAR(255);
 ALTER TABLE menu_option ADD COLUMN image_url VARCHAR(255);
+
+
+use saladayDB;
+
+SELECT AUTO_INCREMENT
+FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = 'saladayDB'
+  AND TABLE_NAME = 'menu';
+
