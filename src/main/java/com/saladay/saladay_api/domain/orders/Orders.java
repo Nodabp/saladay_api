@@ -45,5 +45,4 @@ public class Orders extends BaseTimeEntity {
     private LocalDateTime paidAt;       // 결제 완료 시점
     private LocalDateTime canceledAt;   // 주문 취소 시점
 
-
 }

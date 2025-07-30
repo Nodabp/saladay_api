@@ -1,6 +1,5 @@
 package com.saladay.saladay_api.domain.orders;
 
-import com.saladay.saladay_api.domain.discount.AppliedDiscount;
 import com.saladay.saladay_api.domain.menu.Menu;
 import jakarta.persistence.*;
 import lombok.*;

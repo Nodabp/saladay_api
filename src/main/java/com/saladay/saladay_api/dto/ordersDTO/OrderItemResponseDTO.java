@@ -28,4 +28,5 @@ public class OrderItemResponseDTO {
     private String optionSummary;
 
     private List<OrderItemOptionResponseDTO> options;
+    private List<AppliedDiscountDTO> appliedDiscounts;
 }

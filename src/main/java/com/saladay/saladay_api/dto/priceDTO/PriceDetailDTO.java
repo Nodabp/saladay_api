@@ -1,6 +1,7 @@
 package com.saladay.saladay_api.dto.priceDTO;
 
 import com.saladay.saladay_api.dto.menuDTO.MenuOptionDTO;
+import com.saladay.saladay_api.dto.ordersDTO.AppliedDiscountDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,11 +34,9 @@ public class PriceDetailDTO {
     @Schema(description = "할인 적용 가격", example = "7900")
     private int discountedPrice;
 
-    @Schema(description = "할인 설명 목록")
-    private List<String> discountDescriptions;
-
     @Schema(description = "적용 포인트", example = "500")
-    private int pointAmount;
+    @Builder.Default
+    private int pointAmount = 0;
 
     @Schema(description = "총 옵션 추가 금액", example = "1200")
     private int totalOptionPrice;
@@ -66,10 +65,12 @@ public class PriceDetailDTO {
     @Schema(description = "재고 수량", example = "100")
     private int stockQuantity;
 
+    @Schema(description = "적용된 할인 상세 내역")
+    private List<AppliedDiscountDTO> appliedDiscounts;
+
     public List<Integer> getOptionPriceImpacts() { // 지금은 사용안함.
         return selectedOptions.stream()
                 .map(MenuOptionDTO::getPriceImpact)
                 .collect(Collectors.toList());
     }
-
 }

@@ -1,6 +1,6 @@
-package com.saladay.saladay_api.domain.discount;
+package com.saladay.saladay_api.domain.orders;
 
-import com.saladay.saladay_api.domain.orders.OrdersItem;
+import com.saladay.saladay_api.domain.discount.Discount;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

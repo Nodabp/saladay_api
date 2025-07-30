@@ -16,7 +16,7 @@ import java.util.List;
 public class OrderResponseDTO {
 
     private Long id;
-    private Long orderId;                         // 주문 ID
+    private String orderId;                         // 주문 ID
     private Long menuId;                          // 메뉴 ID
     private String menuName;                      // 메뉴 이름
     private int quantity;
@@ -25,4 +25,5 @@ public class OrderResponseDTO {
     private String discountSummary;               // 할인 요약
     private String optionSummary;                 // 옵션 요약
     private LocalDateTime orderedAt;
+    private List<OrderItemResponseDTO> itemResponses;
 }
