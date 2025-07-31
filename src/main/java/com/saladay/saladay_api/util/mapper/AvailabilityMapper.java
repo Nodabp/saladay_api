@@ -17,6 +17,9 @@ public class AvailabilityMapper {
         boolean isBeforeVisibleUntil = menu.getVisibleUntil() == null || now.isBefore(menu.getVisibleUntil());
         boolean isStockAvailable = inventory.getStockQuantity() > 0 && !inventory.isSoldOutManually();
 
-        return menu.isActive() && isAfterVisibleFrom && isBeforeVisibleUntil && isStockAvailable;
+        return isAfterVisibleFrom
+//                && menu.isActive() // 아래는 완전 비활성화, 이 필드는 품절 표시 및 메뉴에서 품절로 보이게 만듬.
+                && isBeforeVisibleUntil
+                && isStockAvailable;
     }
 }

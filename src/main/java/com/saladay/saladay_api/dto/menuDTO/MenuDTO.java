@@ -40,8 +40,11 @@ public class MenuDTO {
     @Schema(description = "대표 이미지 URL", example = "/images/chicken_caesar.jpg")
     private String imageUrl;
 
-    // Menu 엔티티에 있는 visible_from 과 visible_until 및 is_active 를 참고 해서 최종 판매 여부를 사용할 컬럼.
+    // Menu 엔티티에 있는 visible_from 과 visible_until  최종 판매 여부를 사용할 컬럼.
     @Schema(description = "판매 가능 여부", example = "true")
     private boolean isAvailable;
+
+    @Schema(description = "강제품절 여부", example = "true")
+    private boolean isActive;
 }
 

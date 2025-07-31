@@ -64,6 +64,7 @@ public class TreeMapper {
                 .menuInventory(inventoryDTO)
                 .imageUrl(menu.getImageUrl())
                 .isAvailable(isAvailable)
+                .isActive(menu.isActive())
                 .build();
     }
 

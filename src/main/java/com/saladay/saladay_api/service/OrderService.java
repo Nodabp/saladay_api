@@ -14,13 +14,17 @@ import com.saladay.saladay_api.dto.pointDTO.PointRequestDTO;
 import com.saladay.saladay_api.dto.priceDTO.PriceDetailDTO;
 import com.saladay.saladay_api.repository.*;
 import com.saladay.saladay_api.util.mapper.OptionMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -35,7 +39,7 @@ public class OrderService {
     private final DiscountRepository discountRepository;
     private final OptionMapper optionMapper;
 
-    //    @Transactional
+    @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO request, String paymentKey) {
 
         Users user = (request.getUserId() != null)
@@ -46,7 +50,7 @@ public class OrderService {
         // 주문 생성
         Orders order = Orders.builder()
                 .users(user)
-                .orderId("order||" + LocalDateTime.now().toString().replace(":", "_"))
+                .orderId("order||" + LocalDate.now().toString().replace(":", "").replace("-", ""))
                 .customerName(request.getCustomerName())
                 .customerMobile(request.getCustomerMobile())
                 .customerEmail(request.getCustomerEmail())
@@ -104,8 +108,10 @@ public class OrderService {
                 .sum();
 
         order.setTotalPrice(finalTotal);
+
         order.setStatus(OrderStatus.payReceive);
         order.setPaidAt(LocalDateTime.now());
+
 
         // 포인트 사용/적립
         if (user != null) {
@@ -123,13 +129,17 @@ public class OrderService {
             pointService.usePoint(user.getId(), request.getPointAmount());
             pointService.process(pointRequestDTO);
         }
+        log.info(finalTotal);
 
-        return OrderResponseDTO.builder()
-                .orderId(order.getId())
+        OrderResponseDTO dto = OrderResponseDTO.builder()
+                .orderId(order.getOrderId())
                 .orderStatus(order.getStatus().name())
                 .totalPrice(finalTotal)
                 .paymentKey(paymentKey)
                 .orderDetails(orderDetails)
                 .build();
+        log.info(dto.getTotalPrice());
+
+        return dto;
     }
 }

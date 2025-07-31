@@ -48,7 +48,9 @@ public class PriceService {
         int discountedPrice = (menu.getPrice() - totalDiscountAmount) * quantity;
 
         int pointAvailable = pointService.getAvailablePointByUser(userId);
-        int pointAmount = Math.min(reqPointAmount, Math.min(pointAvailable, discountedPrice));
+        int pointAmount = (userId != null)
+                ? Math.min(reqPointAmount, Math.min(pointAvailable, discountedPrice))
+                : 0;
 
         List<MenuOption> allOptions = menuOptionRepository.findAllByMenuId(menuId);
         List<MenuOptionDTO> selectedOptions = Optional.ofNullable(selectedOptionRequests)
@@ -79,6 +81,7 @@ public class PriceService {
         MenuInventory inventory = inventoryRepository.findByMenuId(menuId);
         int stockQuantity = (inventory != null) ? inventory.getStockQuantity() : 0;
         boolean isAvailable = availabilityMapper.isMenuAvailable(menu, inventory);
+
         int finalPrice = Math.max(0, discountedPrice - pointAmount + totalOptionPrice);
 
         return PriceDetailDTO.builder()

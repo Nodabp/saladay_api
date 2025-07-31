@@ -54,6 +54,9 @@ dependencies {
     /* 누리고 SDK */
     implementation 'net.nurigo:sdk:4.3.2'
 
+    /* webclient 비동기식 */
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 }
 
 tasks.named('test') {

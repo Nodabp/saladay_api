@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderResponseDTO {
-    private Long orderId;
+    private String orderId;
     private String orderStatus;
     private int totalPrice;
     private String paymentKey;
