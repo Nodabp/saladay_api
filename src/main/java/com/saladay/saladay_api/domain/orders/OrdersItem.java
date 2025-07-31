@@ -36,8 +36,5 @@ public class OrdersItem {
     private String optionSummary; // 선택된 옵션 간단 요약
 
     @OneToMany(mappedBy = "ordersItem", cascade = CascadeType.ALL)
-    private List<OrdersItemOption> options = new ArrayList<>();
-
-    @OneToMany(mappedBy = "ordersItem", cascade = CascadeType.ALL)
     private List<AppliedDiscount> appliedDiscounts = new ArrayList<>();
 }

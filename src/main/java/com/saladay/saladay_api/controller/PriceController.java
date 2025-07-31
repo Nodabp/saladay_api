@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/kiosk/price")
+@RequestMapping("/api/price")
 public class PriceController {
 
     private final PriceService priceService;

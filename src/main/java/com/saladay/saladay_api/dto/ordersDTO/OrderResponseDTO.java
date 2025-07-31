@@ -1,12 +1,12 @@
 package com.saladay.saladay_api.dto.ordersDTO;
 
-import com.saladay.saladay_api.dto.menuDTO.MenuOptionDTO;
+
+import com.saladay.saladay_api.dto.priceDTO.PriceDetailDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -14,16 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderResponseDTO {
-
-    private Long id;
-    private String orderId;                         // 주문 ID
-    private Long menuId;                          // 메뉴 ID
-    private String menuName;                      // 메뉴 이름
-    private int quantity;
-    private int finalPrice;                       // 최종 결제 금액
-    private List<MenuOptionDTO> selectedOptions;  // 선택 옵션 상세
-    private String discountSummary;               // 할인 요약
-    private String optionSummary;                 // 옵션 요약
-    private LocalDateTime orderedAt;
-    private List<OrderItemResponseDTO> itemResponses;
+    private Long orderId;
+    private String orderStatus;
+    private int totalPrice;
+    private String paymentKey;
+    private List<PriceDetailDTO> orderDetails; // 주문에 포함된 메뉴 상세
 }
