@@ -18,8 +18,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +48,7 @@ public class OrderService {
         // 주문 생성
         Orders order = Orders.builder()
                 .users(user)
-                .orderId("order||" + LocalDate.now().toString().replace(":", "").replace("-", ""))
+                .orderId("order_"+ LocalDateTime.now().toString().replaceAll("[^0-9]", "").trim())
                 .customerName(request.getCustomerName())
                 .customerMobile(request.getCustomerMobile())
                 .customerEmail(request.getCustomerEmail())
@@ -68,6 +66,7 @@ public class OrderService {
                     request.getPointAmount(),
                     itemReq.getQuantity()
             );
+
 
             Menu menu = menuRepository.findById(itemReq.getMenuId())
                     .orElseThrow(() -> new RuntimeException("메뉴 없음"));
@@ -109,27 +108,15 @@ public class OrderService {
 
         order.setTotalPrice(finalTotal);
 
-        order.setStatus(OrderStatus.payReceive);
+        order.setStatus(OrderStatus.shippingProgress);
         order.setPaidAt(LocalDateTime.now());
 
 
-        // 포인트 사용/적립
-        if (user != null) {
-            int reward = (int) (finalTotal * 0.05);
-            PointRequestDTO pointRequestDTO = PointRequestDTO.builder()
-                    .userId(user.getId())
-                    .relatedOrderId(order.getId())
-                    .pointAmount(reward)
-                    .type(PointType.EARN)
-                    .description("결제 포인트 적립")
-                    .expiredAt(LocalDateTime.now().plusYears(5))
-                    .phoneNumber(user.getPhoneNumber())
-                    .build();
+        // 포인트 적립
+        if (user != null) pointService.userPointForOrder(user.getId(), request.getPointAmount(), order.getId());
 
-            pointService.usePoint(user.getId(), request.getPointAmount());
-            pointService.process(pointRequestDTO);
-        }
-        log.info(finalTotal);
+        // 로그확인
+        log.info("createOrder_finalTotal: {}", finalTotal);
 
         OrderResponseDTO dto = OrderResponseDTO.builder()
                 .orderId(order.getOrderId())
@@ -141,5 +128,9 @@ public class OrderService {
         log.info(dto.getTotalPrice());
 
         return dto;
+    }
+
+    public Orders getOrder(String tossOrderId) {
+        return ordersRepository.findByOrderId(tossOrderId);
     }
 }

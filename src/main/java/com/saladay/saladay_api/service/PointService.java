@@ -104,4 +104,32 @@ public class PointService {
 
         pointRepository.save(usedPoint);
     }
+    public void userPointForOrder(Long userId, int amountToUse, Long orderId) {
+        int currentPoint = getAvailablePointByUser(userId);
+
+        if (amountToUse % 1000 != 0) {
+            throw new IllegalArgumentException("포인트는 1000원 단위로만 사용할 수 있습니다.");
+        }
+
+        if (currentPoint < 3000) {
+            throw new IllegalStateException("포인트는 최소 3,000원 이상일 때만 사용할 수 있습니다.");
+        }
+
+        if (currentPoint < amountToUse) {
+            throw new IllegalStateException("보유 포인트가 부족합니다. 현재 잔액: " + currentPoint + "원");
+        }
+
+        Point usedPoint = Point.builder()
+                .users(Users.builder().id(userId).build())
+                .pointAmount(-amountToUse)
+                .type(PointType.USING)
+                .source(PointSource.SYSTEM)
+                .description("포인트 사용")
+                .expiredAt(null)
+                .relatedOrderId(orderId)
+                .build();
+
+        pointRepository.save(usedPoint);
+    }
+
 }

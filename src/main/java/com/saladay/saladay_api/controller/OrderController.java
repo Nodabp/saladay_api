@@ -19,15 +19,12 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @Value("${com.saladay_api.widgetClientKey}")
-    private String paymentKey;
-
     @Operation(summary = "주문 생성", description = "주문과 옵션 정보를 포함해 새로운 주문을 생성합니다.")
     @PostMapping
     public OrderResponseDTO createOrder(
             @RequestBody OrderRequestDTO request
-//            ,@RequestParam String paymentKey
     ) {
+        String paymentKey = ""; // 추후 승인 검증용.
         return orderService.createOrder(request, paymentKey);
     }
 }

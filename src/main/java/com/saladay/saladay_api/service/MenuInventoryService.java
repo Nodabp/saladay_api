@@ -21,4 +21,28 @@ public class MenuInventoryService {
         return modelMapper.map(menuInventoryRepository.findByMenuId(menuId), MenuInventoryDTO.class);
     }
 
+    public void updateInventory(MenuInventoryDTO menuInventoryDTO) {
+        MenuInventory menuInventory = modelMapper.map(menuInventoryDTO, MenuInventory.class);
+        menuInventoryRepository.save(menuInventory);
+        log.info("Menu Inventory Updated : {}", menuInventory);
+    }
+
+    public MenuInventoryDTO updateInventoryByMenuId(Long menuId, int quantityToUse) {
+        MenuInventoryDTO menuInventoryDTO = findByMenuId(menuId);
+
+        if (menuInventoryDTO != null) {
+            int stock = menuInventoryDTO.getStockQuantity();
+
+            stock = quantityToUse > stock ? 0 : stock - quantityToUse;
+
+            menuInventoryDTO.setStockQuantity(stock);
+
+            updateInventory(menuInventoryDTO);
+            log.info("Menu Inventory Updated : {}", menuInventoryDTO);
+            return menuInventoryDTO;
+        }
+
+        return null;
+    }
+
 }

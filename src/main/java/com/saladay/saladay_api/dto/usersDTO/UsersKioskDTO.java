@@ -15,7 +15,7 @@ public class UsersKioskDTO {
     @Schema(description = "사용자 ID", example = "1")
     private Long id;
 
-    @Schema(description = "휴대폰 번호", example = "01012345678")
+    @Schema(description = "휴대폰 번호", example = "010-000-0000")
     private String phoneNumber;
 
     @Schema(description = "사용자 이름", example = "김샐러")

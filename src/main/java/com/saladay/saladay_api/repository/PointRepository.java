@@ -9,4 +9,6 @@ import java.util.List;
 public interface PointRepository extends JpaRepository<Point, Long>{
     List<Point> findByUsersIdOrderByCreatedAtDesc(Long userId);
     List<Point> findByUsersId(Long userId);
+
+    int getPointByRelatedOrderId(Long relatedOrderId);
 }
