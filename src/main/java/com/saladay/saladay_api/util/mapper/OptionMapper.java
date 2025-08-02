@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saladay.saladay_api.dto.menuDTO.MenuOptionDTO;
+import com.saladay.saladay_api.dto.menuDTO.SimpleMenuOptionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,21 +21,31 @@ public class OptionMapper {
     private final ObjectMapper objectMapper;
 
     //옵션 DTO 리스트 → JSON 문자열 변환
-
     public String toJson(List<MenuOptionDTO> options) {
+       List<SimpleMenuOptionDTO> simpleMenuOptionDTOS = new ArrayList<>();
+        options.forEach(option -> {
+            SimpleMenuOptionDTO simpleMenuOptionDTO = SimpleMenuOptionDTO.builder()
+                    .name(option.getName())
+                    .type(option.getType())
+                    .quantity(option.getQuantity())
+                    .build();
+            simpleMenuOptionDTOS.add(simpleMenuOptionDTO);
+        });
+
         try {
-            return objectMapper.writeValueAsString(options);
+            return objectMapper.writeValueAsString(simpleMenuOptionDTOS);
         } catch (JsonProcessingException e) {
             log.error("옵션 직렬화 실패", e);
             return "[]";
         }
     }
 
-      //JSON 문자열 → 옵션 DTO 리스트 변환
+    //JSON 문자열 → 옵션 DTO 리스트 변환
     public List<MenuOptionDTO> fromJson(String json) {
         try {
             if (json == null || json.isBlank()) return Collections.emptyList();
-            return objectMapper.readValue(json, new TypeReference<>() {});
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
         } catch (Exception e) {
             log.error("옵션 역직렬화 실패", e);
             return Collections.emptyList();

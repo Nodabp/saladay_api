@@ -32,4 +32,9 @@ public class OrderController {
     public String getOrderPhone(@RequestParam String orderId) {
         return orderService.orderCompletePhoneNumber(orderId);
     }
+    @Operation(summary = "주문 캔슬", description = "주문 번호를 주문상태가 캔슬로 변환")
+    @PostMapping("/cancel")
+    public void orderCancel(@RequestParam String orderId) {
+        orderService.orderCancelByOrderId(orderId);
+    }
 }

@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -36,6 +37,7 @@ public class OrderService {
     private final PointService pointService;
     private final DiscountRepository discountRepository;
     private final OptionMapper optionMapper;
+    private final TossConfirmService tossConfirmService;
 
     @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO request, String paymentKey) {
@@ -136,7 +138,7 @@ public class OrderService {
 
 
     public String orderCompletePhoneNumber(String orderId) {
-        Orders order = getOrder(orderId); // 한 번만 호출
+        Orders order = getOrder(orderId);
         if (order != null) {
             String mobile = order.getCustomerMobile();
             if (mobile != null && !mobile.isEmpty()) {
@@ -144,5 +146,17 @@ public class OrderService {
             }
         }
         return "no-phone";
+    }
+    public void orderCancelByOrderId(String orderId) {
+        Orders order = getOrder(orderId);
+        if (order != null) {
+            order.setStatus(OrderStatus.orderCancel);
+            ordersRepository.save(order);
+            if(order.getUsers() != null) {
+                log.info("orderCancelByOrderId 진입");
+                Optional<Users> user = usersRepository.findById(order.getUsers().getId());
+                tossConfirmService.refundPoints(order, user.orElse(null));
+            }
+        }
     }
 }

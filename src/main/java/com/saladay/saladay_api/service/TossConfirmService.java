@@ -1,9 +1,11 @@
 package com.saladay.saladay_api.service;
 
 import com.saladay.saladay_api.domain.enums.OrderStatus;
+import com.saladay.saladay_api.domain.enums.PointSource;
 import com.saladay.saladay_api.domain.enums.PointType;
 import com.saladay.saladay_api.domain.orders.Orders;
 import com.saladay.saladay_api.domain.orders.OrdersItem;
+import com.saladay.saladay_api.domain.point.Point;
 import com.saladay.saladay_api.domain.users.Users;
 import com.saladay.saladay_api.dto.pointDTO.PointRequestDTO;
 import com.saladay.saladay_api.repository.OrdersItemRepository;
@@ -70,9 +72,15 @@ public class TossConfirmService {
         return true;
     }
 
-    private void refundPoints(Orders order, Users user) {
-        int refundAmount = pointRepository.getPointByRelatedOrderId(order.getId());
-        if (refundAmount <= 0) {
+    public void refundPoints(Orders order, Users user) {
+
+        int refundAmount = 0;
+             List<Point> points = pointRepository.findByRelatedOrderId(order.getId());
+             for (Point point : points) {
+                 if(point.getType() == PointType.USING) refundAmount += point.getPointAmount();
+             }
+        log.info("refundPoints 진입");
+        if (refundAmount == 0) {
             log.info("환불할 포인트가 없습니다. 주문 ID: {}", order.getId());
             return;
         }
@@ -86,8 +94,9 @@ public class TossConfirmService {
                 .userId(user.getId())
                 .relatedOrderId(order.getId())
                 .pointAmount(refundAmount)
-                .type(PointType.REFUND)
+                .type(PointType.EARN)
                 .description("결제 실패 환불")
+                .source(PointSource.REFERRAL)
                 .expiredAt(LocalDateTime.now().plusYears(5))
                 .phoneNumber(user.getPhoneNumber())
                 .build();

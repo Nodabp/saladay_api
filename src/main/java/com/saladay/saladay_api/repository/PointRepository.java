@@ -10,5 +10,5 @@ public interface PointRepository extends JpaRepository<Point, Long>{
     List<Point> findByUsersIdOrderByCreatedAtDesc(Long userId);
     List<Point> findByUsersId(Long userId);
 
-    int getPointByRelatedOrderId(Long relatedOrderId);
+    List<Point> findByRelatedOrderId(Long id);
 }
