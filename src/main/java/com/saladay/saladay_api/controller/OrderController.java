@@ -27,4 +27,9 @@ public class OrderController {
         String paymentKey = ""; // 추후 승인 검증용.
         return orderService.createOrder(request, paymentKey);
     }
+    @Operation(summary = "휴대폰 번호 반환", description = "주문 번호를 입력하면 휴대폰 번호 반환")
+    @PostMapping("/phone")
+    public String getOrderPhone(@RequestParam String orderId) {
+        return orderService.orderCompletePhoneNumber(orderId);
+    }
 }

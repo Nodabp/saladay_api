@@ -8,16 +8,16 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public class MessageService {
     private DefaultMessageService messageService;
-    @Value("${com.tjfgusdh.nurigo.apiKey}")
+    @Value("${com.saladay.sms.apiKey}")
     private String apiKey;
-    @Value("${com.tjfgusdh.nurigo.apiSecretKey}")
+    @Value("${com.saladay.sms.apiSecretKey}")
     private String apiSecretKey;
-    @Value("${com.tjfgusdh.nurigo.domain}")
+    @Value("${com.saladay.sms.domain}")
     private String domain;
-    @Value("${com.tjfgusdh.nurigo.from}")
+    @Value("${com.saladay.sms.from}")
     private String from;
 
     // 초기화 메서드
@@ -27,11 +27,12 @@ public class MessageService {
     }
 
     // 메시지 전송 메서드
-    public SingleMessageSentResponse sendSms(String to, String text) {
+    public SingleMessageSentResponse sendSms(MessageDTO messageDTO) {
+
         Message message = new Message();
         message.setFrom(from); // 발신자 번호
-        message.setTo(to);     // 수신자 번호
-        message.setText(text); // 메시지 내용
+        message.setTo(messageDTO.getTo());     // 수신자 번호
+        message.setText(messageDTO.getText()); // 메시지 내용
 
         return this.messageService.sendOne(new SingleMessageSendingRequest(message));
     }

@@ -12,13 +12,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/kiosk/menus")
+@RequestMapping("/api/menus")
 public class MenuController {
 
     private final MenuService menuService;
 
     @Operation(summary = "카테고리별 메뉴 전체 반환")
-    @GetMapping("/category/active")
+    @GetMapping("/all")
     public ResponseEntity<List<CategoryDTO>> getCategoryList(
     ) {
         List<CategoryDTO> dtos = menuService.getActiveCategoryTree();

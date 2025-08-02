@@ -133,4 +133,16 @@ public class OrderService {
     public Orders getOrder(String tossOrderId) {
         return ordersRepository.findByOrderId(tossOrderId);
     }
+
+
+    public String orderCompletePhoneNumber(String orderId) {
+        Orders order = getOrder(orderId); // 한 번만 호출
+        if (order != null) {
+            String mobile = order.getCustomerMobile();
+            if (mobile != null && !mobile.isEmpty()) {
+                return mobile;
+            }
+        }
+        return "no-phone";
+    }
 }
