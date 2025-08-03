@@ -63,7 +63,7 @@ public class TossConfirmService {
         }
 
         earnPoints(order, user.orElse(null)); // user가 null일 수 있음
-        updateOrderStatus(order, OrderStatus.shippingComplete);
+        updateOrderStatus(order, OrderStatus.shippingDelay);
 
         List<OrdersItem> ordersItems = ordersItemRepository.findAllByOrdersId(order.getId());
         ordersItems.forEach(item -> {
