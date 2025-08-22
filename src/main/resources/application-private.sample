@@ -1,5 +1,9 @@
 ## DB url
+
 spring.datasource.url=jdbc:mariadb://YOUR SERVER/saladayDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.jpa.properties.hibernate.jdbc.time_zone=Asia/Seoul
+spring.jpa.database-platform=org.hibernate.dialect.MariaDBDialect
 
 # DB id / pw
 spring.datasource.password=YOUR_PASSWORD
