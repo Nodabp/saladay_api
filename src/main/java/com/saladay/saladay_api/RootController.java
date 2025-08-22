@@ -7,9 +7,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class RootController {
-
+    /* 호스트에 접근하면 바로 이동 되도록 하는 컨트롤러. */
     @GetMapping("/")
     public RedirectView redirectToDocs() {
-        return new RedirectView("/swagger-ui/index.html"); // 또는 /docs, /api 등
+        return new RedirectView("/swagger-ui/index.html");
     }
 }

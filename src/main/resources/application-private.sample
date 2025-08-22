@@ -1,0 +1,20 @@
+## DB url
+spring.datasource.url=jdbc:mariadb://YOUR SERVER/saladayDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+
+# DB id / pw
+spring.datasource.password=YOUR_PASSWORD
+spring.datasource.username=YOUR_ID
+
+
+# server port
+server.port=YOUR_PORT
+
+# toss apikey
+com.saladay_api.widgetClientKey=YOUR_KEY
+com.saladay_api.widgetSecretKey=YOUR_KEY
+
+#nurigo sms service
+com.saladay.sms.apiKey=YOUR_KEY
+com.saladay.sms.apiSecretKey=YOUR_KEY
+com.saladay.sms.domain=https://api.solapi.com
+com.saladay.sms.from=YOUR_PHONE

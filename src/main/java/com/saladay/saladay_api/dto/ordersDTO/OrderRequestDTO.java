@@ -17,7 +17,7 @@ public class OrderRequestDTO {
     @Builder.Default
     private String customerName = "비회원";
     @Builder.Default
-    private String customerMobile = "010-0000-0000";
+    private String customerMobile = "01000000000";
     @Builder.Default
     private String customerEmail = "1@1.com";
     private int pointAmount;               // 사용 포인트

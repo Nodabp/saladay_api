@@ -4,6 +4,7 @@ import com.saladay.saladay_api.domain.enums.OrderStatus;
 import com.saladay.saladay_api.service.OrderService;
 import com.saladay.saladay_api.service.TossConfirmService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +20,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/payment")
@@ -29,6 +28,8 @@ public class PaymentController {
     private final TossConfirmService confirmService;
     private final OrderService orderService;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Value("${com.saladay_api.widgetSecretKey}")
+    private String paymentSecretKey;
 
     @RequestMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
@@ -71,7 +72,8 @@ public class PaymentController {
         // 토스페이먼츠 API는 시크릿 키를 사용자 ID로 사용하고, 비밀번호는 사용하지 않습니다.
         // 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
 
-        String widgetSecretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6"; // 시크릿키.
+
+        String widgetSecretKey = paymentSecretKey;
         Base64.Encoder encoder = Base64.getEncoder();
         byte[] encodedBytes = encoder.encode((widgetSecretKey + ":").getBytes(StandardCharsets.UTF_8));
         String authorizations = "Basic " + new String(encodedBytes);
