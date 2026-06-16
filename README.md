@@ -12,6 +12,7 @@
 **React 기반의 사용자 뷰 앱**,  
 **Spring Boot + MyBatis + Thymeleaf 기반의 관리자(Admin) 웹**으로 구성된 통합 플랫폼입니다.
 
+
 ## 🎯 개발 목표
 
 - 실제 매장에서 사용할 수 있는 주문 프로세스 구현
@@ -23,6 +24,7 @@
 
 ## 🏗 시스템 구성
 
+```
 React (사용자 키오스크)
         │
         ▼
@@ -37,6 +39,7 @@ Toss Payments
 
 관리자(Admin)
 Spring Boot + MyBatis + Thymeleaf
+```
 
 
 ## 🛠 기술 스택
@@ -46,7 +49,49 @@ Spring Boot + MyBatis + Thymeleaf
 | 🔙 Backend  | Spring Boot, Spring Security, JPA (Hibernate), MariaDB, Lombok           
 | 🖥 Frontend | React, Axios, TailwindCSS                                                 
 | 🛠 Admin    | Spring Boot, MyBatis, Thymeleaf, Bootstrap (Mazer Template)              
-| ⚙ Infra    | Gradle/Maven, GitHub Actions (CI/CD)                                      
+| ⚙ Infra    | Gradle/Maven                                    
+
+## 📦 프로젝트 구조
+
+```
+saladay_api
+├─ controller
+├─ domain
+│   ├─ common
+│   ├─ discount
+│   ├─ menu
+│   ├─ orders
+│   ├─ point
+│   └─ users
+├─ dto
+│   ├─ discountDTO
+│   ├─ menuDTO
+│   ├─ ordersDTO
+│   ├─ pointDTO
+│   ├─ priceDTO
+│   ├─ tossDTO
+│   └─ usersDTO
+├─ repository
+├─ service
+├─ sms
+└─ util
+```
+## 📂 핵심 도메인
+```
+Users
+ ├─ Orders
+ │    ├─ OrdersItem
+ │    └─ AppliedDiscount
+ │
+ └─ Point
+
+Category
+ └─ Menu
+      ├─ MenuOption
+      └─ MenuInventory
+
+Discount
+```
 
 
 ## ✨ 주요 기능
@@ -84,6 +129,7 @@ Spring Boot + MyBatis + Thymeleaf
 - 할인 정책 관리
 - 포인트 관리
 - 재고 관리
+  
 
 ## 🔍 주요 설계 내용
 
@@ -120,7 +166,8 @@ Category
 
 이를 통해 기존 기능에 대한 영향도를 최소화하면서 요구사항을 반영하였습니다.
 
-### 🚀 프로젝트를 통해 얻은 경험
+
+## 🚀 프로젝트를 통해 얻은 경험
 
 - Spring Boot REST API 설계
 - JPA 기반 도메인 모델링
